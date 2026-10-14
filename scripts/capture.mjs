@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import {browserPage} from './cdp.mjs';
+const p=await browserPage();
+await fs.mkdir('qa',{recursive:true});
+await p.send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+await p.send('Page.navigate',{url:'http://127.0.0.1:4173/#/home'});await p.wait(1100);
+console.log(await p.evaluate('JSON.stringify({title:document.title,body:document.body.scrollWidth,width:innerWidth,images:[...document.images].map(i=>({src:i.src,ok:i.complete&&i.naturalWidth>0})),content:document.querySelector(".app-scroll").scrollHeight})'));
+await p.screenshot('qa/home-390.png');
+console.log('console errors',p.errors);
+p.close();
