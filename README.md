@@ -2,7 +2,9 @@
 
 七页手机网页，采用 React 19、CSS、JavaScript 和 Vite。文字、按钮与主视觉分离；手机直接呈现H5，电脑居中显示手机内容与活动背景。无需数据库和真实登录。
 
-本地预览已启动：http://localhost:4173/ 。同一局域网手机可使用开发服务器显示的网络地址访问（当前为 http://192.168.1.190:4173/，以本机网络地址为准）。
+在线演示：[津门清咽音浪假日](https://xiaofirst423.github.io/jinmen-qingyan-h5/)。源码仓库：[xiaofirst423/jinmen-qingyan-h5](https://github.com/xiaofirst423/jinmen-qingyan-h5)。
+
+本地开发地址为 http://localhost:4173/ 。同一局域网手机可使用开发服务器显示的网络地址访问，以本机网络地址为准。
 
 ## 使用交付包
 
@@ -44,7 +46,20 @@ pnpm test
 pnpm build
 ```
 
-也可使用 `npm install`、`npm run dev`、`npm test`、`npm run build`；使用npm时先运行install生成其依赖锁。构建产物位于 `dist/client`。现成静态服务器可用 `node scripts/serve.mjs` 启动。生产部署需使用HTTP托管；本项目尚未发布到互联网。
+也可使用 `npm install`、`npm run dev`、`npm test`、`npm run build`；使用npm时先运行install生成其依赖锁。构建产物位于 `dist/client`。现成静态服务器可用 `node scripts/serve.mjs` 启动。
+
+## GitHub Pages 自动发布
+
+向main分支推送更新后，`.github/workflows/pages.yml`会安装锁定依赖、运行规则测试、构建并部署到GitHub Pages。也可在Actions页面手动运行。Pages使用GitHub Actions作为部署源，构建目录为`dist/pages`，仓库子路径由`VITE_BASE_PATH`自动设置。
+
+本地核验Pages构建：
+
+```powershell
+$env:VITE_BASE_PATH='/jinmen-qingyan-h5/'
+pnpm run build:pages
+```
+
+网页公开可访问；投稿、积分与领奖仍是浏览器本机的演示状态，不接入真实服务。
 
 ## 已验证与范围
 
