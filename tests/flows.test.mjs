@@ -1,49 +1,34 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialState, signIn, interact, reviewRecord, redeem, claimReward, submitRecord, claimMetric, validLink, weekKey} from '../src/model.js';
-test('签到每天只增加一次积分，周上限不超500',()=>{
- const base={...initialState(),weeklyEarned:498};const first=signIn(base).state;
- assert.equal(first.points,base.points+2);assert.equal(first.weeklyEarned,500);
- assert.deepEqual(signIn(first).state,first);
-});
-test('互动每日最多10分，达到上限不再发分',()=>{let s={...initialState(),weeklyEarned:0};for(let i=0;i<9;i++)s=interact(s).state;assert.equal(s.interactionEarned,10);assert.equal(s.points,370);});
-test('白银和黄金采用严格大于门槛，审核奖励不能重复',()=>{
- for(const [likes,silver,gold] of [[50,false,false],[51,true,false],[200,true,false],[201,true,true]]){
-  const s=initialState();const next=reviewRecord(s,'seed-pending',true,{likes,saves:50}).state;
-  assert.equal(next.rewards.some(r=>r.id==='seed-pending-silver'),silver);
-  assert.equal(next.rewards.some(r=>r.id==='seed-pending-gold'),gold);
-  assert.equal(next.points,410);assert.deepEqual(reviewRecord(next,'seed-pending',true).state,next);
- }
-});
-test('发布积分每周仅发一次，点赞和收藏任务各领取一次',()=>{
- let s=reviewRecord(initialState(),'seed-pending',true,{likes:201,saves:50}).state;
- s=claimMetric(s,'likes').state;s=claimMetric(s,'saves').state;assert.equal(s.points,470);
- assert.deepEqual(claimMetric(s,'likes').state,s);
- s=submitRecord(s,{id:'second',type:'openbox',title:'第二篇'}).state;
- s=reviewRecord(s,'second',true).state;assert.equal(s.points,470);assert.equal(s.publishedWeek,weekKey());
-});
-test('未通过可补充后重审，无奖励重复或提前发放',()=>{
- let s=reviewRecord(initialState(),'seed-pending',false).state;assert.equal(s.points,360);
- s=submitRecord(s,{id:'unused',type:'openbox',url:'https://example.com/note'},'seed-pending').state;
- assert.equal(s.records.find(r=>r.id==='seed-pending').status,'pending');
- s=reviewRecord(s,'seed-pending',true).state;assert.equal(s.rewards.filter(r=>r.id==='seed-pending-bronze').length,1);
-});
-test('搭子通过后得到30-15和本人5元券，好友奖励不进入本人账户',()=>{
- let s=submitRecord(initialState(),{id:'partner-new',type:'partner',friend:'小林'}).state;
- s=reviewRecord(s,'partner-new',true).state;
- const issued=s.rewards.filter(r=>r.id.startsWith('partner-new'));
- assert.equal(issued.length,2);assert.equal(issued[0].amount,'满30减15');assert.equal(issued[1].amount,'5元');
- assert.equal(s.records.find(r=>r.id==='partner-new').friendReward,true);
-});
-test('积分不足不能兑换，兑换不能重复扣分，800只获得抽奖资格',()=>{
- let s=initialState();assert.deepEqual(redeem(s,'gift').state,s);
- s=redeem(s,'coupon5','x1').state;assert.equal(s.points,260);assert.equal(s.exchanges.length,1);
- assert.deepEqual(redeem(s,'coupon5','x1').state,s);
- const raffle=redeem({...s,points:800},'raffle','raffle1').state;
- assert.equal(raffle.points,0);assert.equal(raffle.rewards[0].kind,'raffle');assert.match(raffle.rewards[0].name,/抽奖资格/);
-});
-test('已领取奖励不可再次领取，券有效期不扩大到5元券',()=>{
- const s=claimReward(initialState(),'seed-coupon10').state;assert.equal(s.rewards.find(r=>r.id==='seed-coupon10').status,'claimed');assert.deepEqual(claimReward(s,'seed-coupon10').state,s);
- assert.equal(s.rewards.find(r=>r.id==='seed-coupon10').validityDays,14);assert.equal(s.rewards.find(r=>r.id==='seed-coupon5').validityDays,undefined);
-});
-test('链接拒绝脚本和不完整输入',()=>{assert.equal(validLink('javascript:alert(1)'),false);assert.equal(validLink('abc'),false);assert.equal(validLink('https://www.xiaohongshu.com/explore/demo'),true);});
+import {initialState,loadState,saveState,migrateState,signIn,interact,reviewRecord,redeem,claimReward,submitRecord,claimMetric,validLink,dateKey,weekKey,STORAGE_KEY} from '../src/model.js';
+const post=(type='openbox',id='new')=>({id,type,url:`https://example.com/${id}`,title:'音乐现场',files:type==='openbox'?[]:['proof.png'],friend:type==='partner'?'小林':''});
+const legacy=()=>({...initialState(),version:1,records:[{...post('openbox','legacy'),status:'pending',likes:68,saves:18,rewardIssued:false},{...post('partner','old-partner'),status:'rejected',reason:'旧原因',rewardIssued:false}]});
+const read=state=>loadState({getItem:()=>JSON.stringify(state)});
+test('保留360示例积分与5项权益，示例参与统一通过',()=>{const s=initialState();assert.equal(s.version,2);assert.equal(s.points,360);assert.equal(s.rewards.length,5);assert.ok(s.records.every(r=>r.status==='approved'&&r.rewardIssued));});
+test('三类合法提交立即通过且精确发放对应基础奖励',()=>{for(const type of ['openbox','partner','challenge']){const base=initialState(),s=submitRecord(base,post(type)).state,r=s.records[0],issued=s.rewards.filter(r=>r.id.startsWith('new-'));assert.equal(r.status,'approved');assert.equal(r.rewardIssued,true);assert.equal(r.likes,0);assert.equal(r.saves,0);assert.equal(issued.length,type==='partner'?2:1);if(type==='openbox'){assert.equal(s.points,410);assert.equal(issued[0].amount,'满30减10');}if(type==='partner'){assert.equal(s.points,360);assert.equal(issued[0].amount,'满30减15');assert.equal(issued[1].amount,'5元');assert.equal(r.friendReward,true);}if(type==='challenge'){assert.equal(s.member,true);assert.equal(issued[0].kind,'membership');}}});
+
+test('搭子未填好友只发晒单基础券，三类重复投稿均不重复发奖',()=>{for(const type of ['openbox','partner','challenge']){const p={...post(type),friend:''},s=submitRecord(initialState(),p).state;assert.deepEqual(submitRecord(s,p).state,s);if(type==='partner'){assert.equal(s.rewards.filter(r=>r.id.startsWith('new-')).length,1);assert.equal(s.records[0].friendReward,false);}}});
+test('提交不采信传入互动量，不直接发白银黄金或门票',()=>{const s=submitRecord(initialState(),{...post(),likes:999,saves:999}).state;assert.equal(s.records[0].likes,0);assert.equal(s.records[0].saves,0);assert.equal(s.rewards.filter(r=>r.id.startsWith('new-')).length,1);});
+test('重复ID、相同作品链接及刷新后重复提交不再发奖加分',()=>{const p=post(),s=submitRecord(initialState(),p).state;assert.deepEqual(submitRecord(s,p).state,s);assert.deepEqual(submitRecord(s,{...p,id:'second'}).state,s);assert.deepEqual(submitRecord(read(s),{...p,id:'third',url:p.url+'#hash'}).state,s);assert.equal(s.points,410);});
+test('提交模型拒绝非法类型、链接和缺失购买证明',()=>{for(const p of [{...post(),type:'bad'},{...post(),url:'javascript:alert(1)'},{...post('partner'),files:[]}]){const s=initialState();assert.equal(submitRecord(s,p).state,s);}});
+
+test('非法ID和非文本链接不写入账户，避免刷新时历史记录丢失',()=>{for(const p of [{...post(),id:123},{...post(),id:'   '},{...post(),url:new URL(post().url)}]){const base=initialState(),s=submitRecord(base,p).state;assert.equal(s,base);assert.deepEqual(read(s),base);}});
+test('发布积分每周一次，周上限500，兑换不回退本周已获积分',()=>{let s=submitRecord({...initialState(),weeklyEarned:490},post()).state;assert.equal(s.points,370);assert.equal(s.weeklyEarned,500);s=submitRecord(s,post('openbox','second')).state;assert.equal(s.points,370);s=redeem(s,'coupon5','exchange').state;assert.equal(s.points,270);assert.equal(s.weeklyEarned,500);});
+test('签到每天一次，临近周上限仅发剩余分数',()=>{const base={...initialState(),weeklyEarned:498},first=signIn(base).state;assert.equal(first.points,362);assert.equal(first.weeklyEarned,500);assert.deepEqual(signIn(first).state,first);});
+test('互动每天最多10分，重复签到与互动均受周上限约束',()=>{let s=initialState();for(let i=0;i<9;i++)s=interact(s).state;assert.equal(s.points,370);assert.equal(s.interactionEarned,10);assert.deepEqual(interact(s).state,s);});
+
+test('旧互动进度剩1分时仅补1分，并继续受周限额约束',()=>{const base={...initialState(),interactionOn:dateKey(),interactionEarned:9},s=interact(base).state;assert.equal(s.points,361);assert.equal(s.interactionEarned,10);assert.equal(s.weeklyEarned,86);assert.deepEqual(interact(s).state,s);const capped={...base,weeklyEarned:500};assert.equal(interact(capped).state.points,capped.points);assert.equal(interact(capped).state.interactionEarned,9);});
+test('白银黄金严格大于50/200，旧记录原互动量保持',()=>{for(const [likes,silver,gold] of [[50,false,false],[51,true,false],[200,true,false],[201,true,true]]){const old=legacy();old.records[0].likes=likes;const s=migrateState(old);assert.equal(s.rewards.some(r=>r.id==='legacy-silver'),silver);assert.equal(s.rewards.some(r=>r.id==='legacy-gold'),gold);assert.equal(s.records[0].likes,likes);}});
+test('点赞及收藏积分每周各一次，新投稿不满足任务门槛',()=>{let s=submitRecord(initialState(),post()).state;assert.equal(claimMetric(s,'likes').state,s);const old=legacy();old.records[0].likes=201;old.records[0].saves=50;s=migrateState(old);s=claimMetric(s,'likes').state;s=claimMetric(s,'saves').state;assert.equal(s.points,470);assert.deepEqual(claimMetric(s,'likes').state,s);});
+test('旧待审/拒绝一次迁移通过，保留余额、原权益及历史明细',()=>{const old=legacy(),s=read(old);assert.equal(s.version,2);assert.equal(s.points,410);assert.ok(old.rewards.every(r=>s.rewards.some(n=>n.id===r.id)));assert.ok(old.ledger.every(l=>s.ledger.some(n=>n.id===l.id)));assert.ok(s.records.every(r=>r.status==='approved'&&r.rewardIssued&&!r.reason));assert.equal(s.rewards.length,9);assert.deepEqual(read(s),s);assert.deepEqual(migrateState(s),s);});
+
+test('旧返场投稿迁移到账会员并保留已领取状态和兑换历史',()=>{const old=legacy();old.records.push({...post('challenge','old-challenge'),status:'pending',rewardIssued:false});old.exchanges=[{id:'old-exchange',name:'5元无门槛券',cost:100}];const s=read(old);assert.equal(s.member,true);assert.equal(s.rewards.filter(r=>r.id==='old-challenge-member').length,1);assert.equal(s.rewards.find(r=>r.id==='old-challenge-member').status,'claimed');assert.deepEqual(s.rewards.find(r=>r.id==='seed-coupon5'),old.rewards.find(r=>r.id==='seed-coupon5'));assert.deepEqual(s.exchanges,old.exchanges);assert.deepEqual(read(s),s);});
+test('迁移同时检查发奖标记、奖励ID、积分明细ID，避免部分发奖重复',()=>{let old=legacy();old.records=old.records.slice(0,1);old.records[0].rewardIssued=true;let s=read(old);assert.equal(s.points,360);assert.equal(s.rewards.length,5);old=legacy();old.rewards.push({id:'legacy-bronze',kind:'coupon',status:'available'});old.ledger.push({id:'legacy-points',label:'发布笔记',delta:50});s=read(old);assert.equal(s.rewards.filter(r=>r.id==='legacy-bronze').length,1);assert.equal(s.points,360);assert.equal(s.ledger.filter(l=>l.id==='legacy-points').length,1);});
+test('重复迁移原v1快照结果确定，保存并重读不再发奖',()=>{const old=legacy(),first=read(old);assert.deepEqual(read(old),first);let data;assert.equal(saveState(first,{setItem:(key,value)=>{assert.equal(key,STORAGE_KEY);data=value;}}),true);assert.deepEqual(loadState({getItem:()=>data}),first);});
+test('旧周状态重置本周积分且保留账户余额与权益',()=>{const s=read({...initialState(),week:'2020-01-01',weeklyEarned:500,publishedWeek:'2020-01-01'});assert.equal(s.points,360);assert.equal(s.weeklyEarned,0);assert.equal(s.week,weekKey());assert.equal(submitRecord(s,post()).state.points,410);});
+test('损坏、非法结构、负余额、存储读取异常均可恢复演示',()=>{for(const value of ['{','null',JSON.stringify({...initialState(),points:-1}),JSON.stringify({...initialState(),records:[null]})])assert.deepEqual(loadState({getItem:()=>value}),initialState());assert.deepEqual(loadState({getItem:()=>{throw new Error('denied');}}),initialState());});
+test('写入失败明确返回失败，不抛错，内存数据仍完整',()=>{const s=submitRecord(initialState(),post()).state;assert.equal(saveState(s,{setItem:()=>{throw new Error('quota');}}),false);assert.equal(s.records[0].status,'approved');assert.equal(s.points,410);});
+test('兑换门槛100/300/600/800，重复兑换ID不重复扣分，800只给抽奖资格',()=>{for(const [id,cost] of [['coupon5',100],['merch',300],['gift',600],['raffle',800]]){const low={...initialState(),points:cost-1};assert.equal(redeem(low,id).state,low);const s=redeem({...initialState(),points:cost},id,'x').state;assert.equal(s.points,0);assert.equal(s.exchanges.length,1);assert.deepEqual(redeem(s,id,'x').state,s);if(id==='raffle')assert.equal(s.rewards[0].kind,'raffle');}});
+test('已领取不可重复领取，两类满减券14天，5元券不新增期限',()=>{let s=claimReward(initialState(),'seed-coupon10').state;assert.deepEqual(claimReward(s,'seed-coupon10').state,s);assert.equal(s.rewards.find(r=>r.id==='seed-coupon10').validityDays,14);assert.equal(s.rewards.find(r=>r.id==='seed-coupon15').validityDays,14);assert.equal(s.rewards.find(r=>r.id==='seed-coupon5').validityDays,undefined);});
+test('审核函数重复调用不发奖，模型仍返回state/message',()=>{const s=submitRecord(initialState(),post()).state;assert.deepEqual(reviewRecord(s,'new',true).state,s);assert.deepEqual(Object.keys(submitRecord(s,post())).sort(),['message','state']);});
+test('链接仅接受完整HTTP/HTTPS，拒绝脚本及不完整输入',()=>{assert.equal(validLink('javascript:alert(1)'),false);assert.equal(validLink('abc'),false);assert.equal(validLink('https://example.com/note'),true);});
