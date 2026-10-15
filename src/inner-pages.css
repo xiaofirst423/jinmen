@@ -1,51 +1,51 @@
-/* The two account pages share the campaign's herbal green, gold and real artwork. */
+/* Image-led account pages. All new art is reused from the supplied campaign references. */
 .points-page,.mine-page{padding-top:24px;--muted:#5e6f61}
-.points-page .inner-masthead,.mine-page .inner-masthead{display:grid;grid-template-columns:minmax(0,1fr) 88px;gap:12px;align-items:center;min-height:134px}
+.points-page .inner-masthead,.mine-page .inner-masthead{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:12px;align-items:center;min-height:142px}
 .inner-masthead>div{min-width:0}
 .inner-masthead .section-kicker{display:flex;gap:8px;align-items:center;font-size:14px;color:#5e7055;letter-spacing:.5px}
 .inner-masthead h1{font-size:30px;font-weight:600;letter-spacing:.2px;line-height:1.3;margin:12px 0 10px;color:#153f32}
 .inner-masthead>div>p:last-child{font-size:14px;color:#5e6f61;line-height:1.8}
-.inner-masthead .masthead-art{width:100%;height:132px;object-fit:contain;mix-blend-mode:multiply;justify-self:end;mask-image:radial-gradient(ellipse 66% 64% at 54% 45%,#000 48%,transparent 86%)}
+.inner-masthead .masthead-art{width:100%;height:auto;aspect-ratio:320/237;object-fit:contain;mix-blend-mode:multiply;justify-self:end;mask-image:radial-gradient(ellipse 65% 57% at 65% 42%,#000 52%,transparent 100%)}
 .points-page>.wallet-overview,.mine-page>.member-card{margin-top:20px}
 .points-page .wallet-overview{display:grid;gap:16px}
-.points-page .reward-pass{display:block;position:relative;border-radius:18px;padding:24px;background:#153f32;color:#f9f9ed;border:1px solid #284f3e;box-shadow:0 10px 28px #153f3212;min-width:0}
-.points-page .pass-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px}
-.points-page .pass-heading button{display:flex;gap:8px;align-items:center;color:#dfead4;font-size:14px;padding:8px 0}
-.points-page .pass-heading button:hover{background:none;color:white}
-.points-page .pass-balance{display:flex;align-items:baseline;gap:10px;position:relative;margin:5px 0 22px}
-.points-page .balance{font-size:64px;font-weight:600;letter-spacing:-1px;line-height:1.15;color:#e0f2b6;margin:0}
-.points-page .pass-balance>span:not(.pass-mark){color:#dfead4;font-size:14px}
-.points-page .pass-mark{margin-left:auto;color:#b5d09a;opacity:.6;align-self:center;display:flex}
-.points-page .weekly-progress{border-top:1px solid #55715b;padding-top:18px}
-.points-page .weekly-progress p{font-size:14px;gap:6px;color:#e0e8d9;align-items:center}
-.points-page .weekly-progress small{color:#c8d7c0;font-size:14px}
-.points-page .weekly-progress strong{font-weight:600;color:white}
-.points-page progress,.points-page progress::-webkit-progress-bar{background:#42624d;border-radius:999px}
-.points-page progress{height:7px;margin-top:12px}
-.points-page progress::-webkit-progress-value{background:#d5f58b;border-radius:999px}
-.points-page progress::-moz-progress-bar{background:#d5f58b;border-radius:999px}
-.points-page .signin-panel{margin:0;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;background:#f5e9c9;border:1px solid #e7d9b8;border-radius:18px;padding:20px}
-.points-page .signin-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#fff8e8;color:#896421}
-.points-page .signin-copy h2{font-size:18px;font-weight:600;line-height:1.5}
-.points-page .signin-copy p{font-size:14px;color:#766037;margin-top:4px}
-.points-page .signin-gain{display:flex;flex-direction:column;align-items:center;color:#836021}
-.points-page .signin-gain strong{font-size:36px;line-height:1.25;font-weight:600}
-.points-page .signin-gain span{font-size:14px;white-space:nowrap}
-.points-page .signin-panel .pill-button{grid-column:2/-1;min-height:44px;display:flex;justify-content:center;gap:12px;border-radius:999px;font-size:16px;padding:10px 16px}
-.points-page .signin-panel.completed{background:#eaf0e5;border-color:#d4dfc7}
-.points-page .signin-panel.completed .pill-button{background:#d9e4ce;color:#46603e;opacity:1}
+.points-page .reward-pass{display:block;position:relative;overflow:hidden;border-radius:18px;padding:24px;background:#eaf1db;color:#153f32;border:1px solid #dbe5c9;box-shadow:0 8px 26px #385b2b09;min-width:0;min-height:206px}
+.points-page .pass-illustration{position:absolute;right:0;top:0;width:47%;height:100%;object-fit:cover;object-position:right center;mix-blend-mode:multiply;mask-image:linear-gradient(90deg,transparent,#000 27%);pointer-events:none}
+.points-page .pass-content{position:relative;z-index:1;width:69%}
+.points-page .pass-heading{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;font-size:16px}
+.points-page .pass-heading button{display:flex;gap:5px;align-items:center;color:#355238;font-size:14px;padding:8px 0}
+.points-page .pass-heading button:hover{background:none;color:#153f32}
+.points-page .pass-balance{display:flex;align-items:baseline;gap:8px;margin:6px 0 8px}
+.points-page .balance{font-size:clamp(52px,16vw,72px);font-weight:600;letter-spacing:-1px;line-height:1.15;color:#153f32;margin:0;overflow-wrap:anywhere}
+.points-page .pass-balance>span{font-size:14px;color:#4d6546;white-space:nowrap}
+.points-page .pass-note{font-size:14px;color:#4d6546;line-height:1.8;max-width:185px}
+.points-page .signin-panel{margin:0;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;background:#fffef8;border:1px solid #e0e5d5;border-radius:18px;padding:20px}
+.points-page .signin-icon{display:block;width:56px;height:64px;object-fit:contain;mix-blend-mode:multiply}
+.points-page .signin-copy h2{font-size:18px;font-weight:500;line-height:1.5;white-space:nowrap}
+.points-page .signin-copy p{font-size:18px;font-weight:500;color:#866020;margin-top:4px;white-space:nowrap}
+.points-page .signin-panel .pill-button{min-height:44px;display:flex;justify-content:center;border-radius:999px;font-size:16px;padding:10px 14px;white-space:nowrap}
+.points-page .signin-panel.completed{background:#f1f4e9;border-color:#d7e2cb}
+.points-page .signin-panel.completed .pill-button{background:#dce6cf;color:#3e5a37;opacity:1}
+.points-page>.weekly-progress{margin-top:20px;background:#fffef8;border:1px solid #e1e6d7;border-radius:16px;padding:18px 20px}
+.points-page .weekly-progress p{font-size:14px;gap:6px;color:#435d3f;align-items:center}
+.points-page .weekly-progress small{color:#5e6f61;font-size:14px}
+.points-page .weekly-progress strong{font-weight:600;color:#153f32}
+.points-page progress,.points-page progress::-webkit-progress-bar{background:#e4e9db;border-radius:999px}
+.points-page progress{height:8px;margin-top:12px}
+.points-page progress::-webkit-progress-value{background:#809d5e;border-radius:999px}
+.points-page progress::-moz-progress-bar{background:#809d5e;border-radius:999px}
 .points-page .welfare-content-grid{display:grid;gap:32px;margin-top:32px;align-items:start}
 .points-page .mission-panel,.points-page .exchange-panel{min-width:0}
 .points-page .section-title,.mine-page .section-title{margin:0 0 20px;gap:12px}
-.points-page .section-title h2,.mine-page .section-title h2{font-size:23px;font-weight:600;color:#153f32;border-left:0;padding-left:0}
+.points-page .section-title h2,.mine-page .section-title h2{display:flex;align-items:center;gap:8px;font-size:23px;font-weight:600;color:#153f32;border-left:0;padding-left:0}
+.points-page .section-leaf,.mine-page .section-leaf{width:28px;height:32px;object-fit:contain;mix-blend-mode:multiply;flex-shrink:0}
 .points-page .section-note{font-size:14px;color:#607154}
 .points-page .exchange-panel .section-title .text-link{font-size:14px;gap:5px}
 .points-page .task-list{display:grid;grid-template-columns:1fr;border:0;gap:12px}
 .points-page .task-row{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:12px;border:1px solid #e0e4d6;border-radius:14px;background:#fffef8;padding:18px 16px;min-height:100px;transition:border-color 180ms,box-shadow 180ms}
 .points-page .task-row:hover{border-color:#b3c398;box-shadow:0 5px 18px #153f3207}
 .points-page .task-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#edf3dd;color:#47623c}
-.points-page .task-row:nth-child(2) .task-icon{background:#f7ebdc;color:#a07448}
-.points-page .task-row:nth-child(3) .task-icon{background:#f4eed1;color:#8f7425}
+.points-page .task-row:nth-child(2) .task-icon{background:#f7ebdc;color:#98673a}
+.points-page .task-row:nth-child(3) .task-icon{background:#f4eed1;color:#856a20}
 .points-page .task-row:nth-child(4) .task-icon{background:#e4efdf;color:#4e6e4b}
 .points-page .task-row h3{font-size:16px;line-height:1.6;font-weight:500}
 .points-page .task-row p{font-size:14px;color:#726d50;line-height:1.6;margin-top:6px}
@@ -57,53 +57,57 @@
 .points-page .rules-fold{margin-top:20px;border-color:#dde2d3}
 .points-page .rules-fold .fold-body{font-size:14px;color:#5e6f61}
 .points-page .exchange-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.points-page .exchange-card{min-width:0;padding:14px;border:1px solid #e4e7d8;border-radius:16px;background:#fffef8;gap:10px;align-items:stretch;transition:box-shadow 180ms,border-color 180ms}
-.points-page .exchange-card:hover{box-shadow:0 7px 22px #153f3209;border-color:#b9c8a8}
-.points-page .exchange-visual{display:grid;place-items:center;height:108px;border-radius:10px;background:#f4f2e5;overflow:hidden}
-.points-page .exchange-card:nth-child(1) .exchange-visual,.points-page .exchange-card:nth-child(4) .exchange-visual{background:#f7edd1}
-.points-page .exchange-visual img{width:100%;height:100%;max-width:180px;object-fit:contain;mix-blend-mode:multiply}
+.points-page .exchange-card{min-width:0;padding:14px;border:1px solid #e5dfc7;border-radius:16px;background:#f8edcf;gap:8px;align-items:stretch;overflow:hidden;transition:box-shadow 180ms,border-color 180ms}
+.points-page .exchange-merch{background:#eaf0d9;border-color:#dbe4c6}
+.points-page .exchange-gift{background:#e9efe3;border-color:#dce4d3}
+.points-page .exchange-card:hover{box-shadow:0 7px 22px #153f320c;border-color:#aabb8d}
+.points-page .exchange-visual{display:grid;place-items:center;height:130px;width:calc(100% + 28px);margin:-14px -14px 2px;overflow:hidden}
+.points-page .exchange-visual img{width:100%;height:100%;max-width:none;object-fit:contain;mix-blend-mode:multiply;transition:transform 200ms}
+.points-page .exchange-card:hover .exchange-visual img{transform:scale(1.025)}
 .points-page .exchange-card h3{font-size:16px;font-weight:500;line-height:1.5;min-height:48px;flex:none}
-.points-page .exchange-card>strong{font-size:24px;line-height:1.3;color:#7f602b;font-weight:600}
+.points-page .exchange-card>strong{font-size:24px;line-height:1.3;color:#765724;font-weight:600}
 .points-page .exchange-card>strong span{font-size:14px;font-weight:400}
-.points-page .exchange-card .pill-button{font-size:14px;border-radius:999px;min-height:44px;gap:6px;padding:9px 10px;margin-top:4px}
-.points-page .exchange-card .pill-button:disabled{background:#eef0e7;color:#626e58;opacity:1}
+.points-page .exchange-card .pill-button{font-size:14px;border-radius:999px;min-height:44px;gap:6px;padding:9px 10px;margin-top:6px}
+.points-page .exchange-card .pill-button:disabled{background:#e1e4d6;color:#58664e;opacity:1}
 .points-page .raffle-note{display:flex;align-items:flex-start;gap:8px;margin-top:16px;font-size:14px;color:#666d55}
 .points-page .raffle-note svg{margin-top:4px}
-.mine-page .member-card{padding:24px;border-radius:20px;color:#f8f7e9;background:#153f32;border:1px solid #315640;box-shadow:0 10px 28px #153f3212}
-.mine-page .member-main{display:flex;gap:16px;align-items:center;min-height:100px;padding-bottom:24px}
-.mine-page .member-avatar{flex-shrink:0;width:56px;height:56px;display:grid;place-items:center;border-radius:18px;background:#e6efcf;color:#3d6042;border:1px solid #f3f6e1}
+.mine-page .member-card{position:relative;overflow:hidden;padding:24px;border-radius:20px;color:#153f32;background:#e9efde;border:1px solid #dbe4cd;box-shadow:0 8px 26px #385b2b09}
+.mine-page .member-botanical{position:absolute;right:0;top:0;width:85px;height:181px;object-fit:contain;mix-blend-mode:multiply;pointer-events:none;mask-image:radial-gradient(ellipse 120% 100% at 100% 25%,#000 35%,transparent 80%)}
+.mine-page .member-main{position:relative;display:flex;gap:16px;align-items:center;min-height:112px;padding-bottom:20px}
+.mine-page .member-avatar{flex-shrink:0;width:76px;height:76px;object-fit:cover;border-radius:50%}
 .mine-page .member-main>div{min-width:0}
-.mine-page .member-main>div>p{font-size:14px;color:#d6e2ca}
-.mine-page .member-main h2{font-size:22px;font-weight:500;margin:4px 0 10px;line-height:1.45}
-.mine-page .identity{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:#f1d891;border:1px solid #80906c;border-radius:999px;padding:3px 10px;background:#304f3c}
-.mine-page .member-music{margin-left:auto;color:#b9d398;opacity:.55;display:none}
-.mine-page .member-stats{border-top:1px solid #52705a;padding-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mine-page .member-main>div>p{font-size:14px;color:#51674a}
+.mine-page .member-main h2{font-size:21px;font-weight:500;margin:4px 0 10px;line-height:1.45}
+.mine-page .identity{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:#73592a;border:1px solid #d5d8b6;border-radius:999px;padding:3px 10px;background:#f6f3df}
+.mine-page .member-stats{position:relative;border-top:1px solid #c6d3b6;padding-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .mine-page .member-stats>button,.mine-page .member-stats>div{padding:0;min-width:0;min-height:98px;text-align:left;border:0;background:none;margin:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
-.mine-page .member-stats small{display:block;color:#cfdec5;font-size:14px;line-height:1.5}
-.mine-page .member-stats strong{display:block;color:#e0f2b6;font-size:30px;line-height:1.25;font-weight:600;margin:7px 0 5px}
-.mine-page .member-stats span{display:flex;gap:4px;align-items:center;font-size:14px;color:#e5ecd9;line-height:1.5}
-.mine-page .member-stats>button:hover{background:#ffffff08}
+.mine-page .member-stats small{display:flex;align-items:center;gap:5px;min-height:25px;color:#51674a;font-size:14px;line-height:1.5;white-space:nowrap}
+.mine-page .coin-art{width:22px;height:23px;object-fit:contain}
+.mine-page .member-stats strong{display:block;color:#153f32;font-size:30px;line-height:1.25;font-weight:600;margin:7px 0 5px}
+.mine-page .member-stats span{display:flex;gap:4px;align-items:center;font-size:14px;color:#415d39;line-height:1.5}
+.mine-page .member-stats>button:hover{background:#153f3206}
 .mine-page .mine-overview{display:grid;gap:16px;margin-top:20px}
-.mine-page .reward-pocket{padding:24px;border-radius:18px;min-height:184px;background:#f5e7c2;border:1px solid #e8d8b2;display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:14px;text-align:left;transition:border-color 180ms,box-shadow 180ms}
+.mine-page .reward-pocket{position:relative;overflow:hidden;padding:24px;border-radius:18px;min-height:184px;background:#f5e7c2;border:1px solid #e8d8b2;display:flex;align-items:center;text-align:left;transition:border-color 180ms,box-shadow 180ms}
+.mine-page .reward-pocket>div{position:relative;z-index:1;max-width:69%}
 .mine-page .reward-pocket:hover{background:#f3e3b8;border-color:#d0b878;box-shadow:0 7px 22px #765b2710}
 .mine-page .pocket-label{display:flex;align-items:center;gap:7px;color:#785f2e;font-size:14px}
 .mine-page .reward-pocket h2{font-size:26px;font-weight:600;color:#5d4d28;margin:6px 0 8px}
 .mine-page .reward-pocket p{font-size:14px;color:#735b30}
 .mine-page .reward-pocket p strong{font-size:22px;font-weight:600}
 .mine-page .pocket-action{display:flex;align-items:center;gap:8px;color:#5d6038;font-size:14px;margin-top:14px}
-.mine-page .reward-pocket img{width:110px;height:110px;object-fit:contain;mix-blend-mode:multiply}
-.mine-page .keep-sharing{display:flex;align-items:center;gap:14px;padding:22px;border-radius:16px;min-height:100px;background:#eaf0e2;border:1px solid #dce5ce}
-.mine-page .keep-sharing:hover{background:#e2ebd7}
-.mine-page .sharing-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:#f9fbf2;color:#517044;flex-shrink:0}
-.mine-page .keep-sharing>span:nth-child(2){flex:1;min-width:0}
+.mine-page .reward-pocket img{position:absolute;right:0;top:50%;transform:translateY(-50%);width:47%;height:174px;object-fit:contain;object-position:right center;mix-blend-mode:multiply;mask-image:linear-gradient(90deg,transparent,#000 28%)}
+.mine-page .keep-sharing{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;min-height:116px;background:#fffef8;border:1px solid #dfe5d4}
+.mine-page .keep-sharing:hover{background:#f0f4e8}
+.mine-page .sharing-photo{width:76px;height:78px;object-fit:cover;border-radius:12px;flex-shrink:0}
+.mine-page .keep-sharing>span{flex:1;min-width:0}
 .mine-page .keep-sharing strong{display:block;font-size:18px;font-weight:500}
 .mine-page .keep-sharing small{display:block;font-size:14px;color:#5c6d51;margin-top:6px;line-height:1.65}
 .mine-page .participation-panel{margin-top:32px}
 .mine-page .section-title select{background:#fffef8;border-color:#d9dfcd;border-radius:999px;padding:9px 14px;font-size:14px;min-height:44px;max-width:156px}
 .mine-page .record-list{display:grid;grid-template-columns:1fr;gap:16px}
-.mine-page .record-row{background:#fffef8;border:1px solid #e1e5d6;border-radius:16px;padding:18px;align-items:flex-start;gap:14px;transition:border-color 180ms,box-shadow 180ms;min-width:0}
+.mine-page .record-row{background:#fffef8;border:1px solid #e1e5d6;border-radius:16px;padding:18px;align-items:flex-start;gap:16px;transition:border-color 180ms,box-shadow 180ms;min-width:0}
 .mine-page .record-row:hover{border-color:#bac9a7;box-shadow:0 5px 20px #153f3208}
-.mine-page .record-photo{display:block;width:72px;height:100px;object-fit:cover;border-radius:10px;flex-shrink:0;background:#f1f2e6}
+.mine-page .record-photo{display:block;width:104px;height:104px;object-fit:cover;border-radius:10px;flex-shrink:0;background:#f1f2e6}
 .mine-page .record-name{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .mine-page .record-name h3{font-size:16px;line-height:1.6;font-weight:500;margin:0;min-width:0;overflow-wrap:anywhere}
 .mine-page .record-name .status{background:#edf3df;color:#4b6c3c;padding:3px 9px;border-radius:999px;font-size:14px}
@@ -113,38 +117,40 @@
 .mine-page .empty-state{border:1px solid #dce5ce;background:#edf2e6;border-radius:16px}
 @media(min-width:600px){
  .points-page,.mine-page{padding-top:28px}
- .points-page .inner-masthead,.mine-page .inner-masthead{grid-template-columns:minmax(0,1fr) 160px;min-height:150px}
- .inner-masthead h1{font-size:38px}.inner-masthead>div>p:last-child{font-size:16px}.inner-masthead .masthead-art{height:155px}
+ .points-page .inner-masthead,.mine-page .inner-masthead{grid-template-columns:minmax(0,1fr) 220px;min-height:166px}
+ .inner-masthead h1{font-size:38px}.inner-masthead>div>p:last-child{font-size:16px}
  .points-page .task-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
  .points-page .task-row{grid-template-columns:40px minmax(0,1fr);align-items:start;gap:12px;padding:20px;min-height:180px}
  .points-page .task-action{grid-column:1/-1;width:100%;max-width:none;margin-top:4px;min-height:44px}
- .points-page .exchange-grid{gap:16px}.points-page .exchange-card{padding:16px}.points-page .exchange-visual{height:130px}
- .mine-page .member-card{padding:28px 32px}.mine-page .member-avatar{width:64px;height:64px}.mine-page .member-main h2{font-size:26px}.mine-page .member-music{display:block}.mine-page .member-stats strong{font-size:36px}
- .mine-page .mine-overview{grid-template-columns:1.25fr 1fr;gap:20px}.mine-page .keep-sharing{padding:24px;min-height:184px;align-self:stretch}.mine-page .reward-pocket{grid-template-columns:minmax(0,1fr) 130px}.mine-page .reward-pocket img{width:130px;height:130px}
- .mine-page .record-photo{width:96px;height:116px}.mine-page .record-row{padding:22px;gap:18px}.mine-page .record-name h3{font-size:18px}
+ .points-page .exchange-grid{gap:16px}.points-page .exchange-card{padding:18px}.points-page .exchange-visual{width:calc(100% + 36px);margin:-18px -18px 4px;height:170px}
+ .mine-page .member-card{padding:28px 32px}.mine-page .member-avatar{width:88px;height:88px}.mine-page .member-main h2{font-size:26px}.mine-page .member-stats strong{font-size:36px}.mine-page .member-botanical{width:112px;height:240px}
+ .mine-page .mine-overview{grid-template-columns:1.25fr 1fr;gap:20px}.mine-page .keep-sharing{padding:20px;min-height:184px;align-self:stretch}.mine-page .sharing-photo{width:88px;height:106px}.mine-page .reward-pocket{min-height:184px}
+ .mine-page .record-photo{width:116px;height:116px}.mine-page .record-row{padding:22px;gap:18px}.mine-page .record-name h3{font-size:18px}
 }
 @media(min-width:800px){
  .points-page .wallet-overview{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:20px}
- .points-page .reward-pass{padding:26px 30px;min-height:240px}
- .points-page .signin-panel{grid-template-columns:44px minmax(0,1fr);gap:12px 16px;padding:24px;align-content:start}
- .points-page .signin-icon{width:44px;height:44px}.points-page .signin-gain{grid-column:1/-1;flex-direction:row;gap:12px;align-items:baseline;justify-content:center}.points-page .signin-gain strong{font-size:42px}.points-page .signin-panel .pill-button{grid-column:1/-1;margin-top:2px}
+ .points-page .reward-pass{padding:26px 30px;min-height:224px}.points-page .pass-content{width:67%}.points-page .pass-note{max-width:none}
+ .points-page .signin-panel{grid-template-columns:68px minmax(0,1fr);gap:12px 16px;padding:24px;align-content:center}
+ .points-page .signin-icon{width:68px;height:72px}.points-page .signin-copy p{font-size:22px}.points-page .signin-panel .pill-button{grid-column:1/-1;margin-top:2px}
  .mine-page .record-list{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(min-width:1000px){
- .points-page .welfare-content-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px}
- .points-page .inner-masthead,.mine-page .inner-masthead{grid-template-columns:minmax(0,1fr) 200px}
- .inner-masthead h1{font-size:40px}.inner-masthead .masthead-art{height:160px}
- .points-page .exchange-card{padding:14px}.points-page .exchange-visual{height:112px}.points-page .exchange-card h3{font-size:16px}.points-page .section-note{font-size:14px}
- .mine-page .mine-overview{grid-template-columns:1.4fr 1fr}.mine-page .reward-pocket{padding:24px 30px;grid-template-columns:minmax(0,1fr) 180px}.mine-page .reward-pocket img{width:180px;height:140px}.mine-page .reward-pocket h2{font-size:30px}
+ .points-page .welfare-content-grid{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px}
+ .points-page .inner-masthead,.mine-page .inner-masthead{grid-template-columns:minmax(0,1fr) 260px}
+ .inner-masthead h1{font-size:40px}
+ .points-page .exchange-card{padding:16px}.points-page .exchange-visual{width:calc(100% + 32px);margin:-16px -16px 4px;height:138px}
+ .mine-page .mine-overview{grid-template-columns:1.4fr 1fr}.mine-page .reward-pocket{padding:24px 30px}.mine-page .reward-pocket img{height:200px}.mine-page .reward-pocket h2{font-size:30px}
 }
 @media(max-width:359px){
- .points-page .inner-masthead,.mine-page .inner-masthead{grid-template-columns:minmax(0,1fr) 62px;gap:8px;min-height:128px}
- .inner-masthead h1{font-size:27px}.inner-masthead .section-kicker{gap:5px;font-size:14px}.inner-masthead .masthead-art{height:112px}
- .points-page .reward-pass{padding:20px}.points-page .balance{font-size:56px}.points-page .pass-mark svg{width:52px}.points-page .weekly-progress small{margin-left:0;width:100%}
- .points-page .signin-panel{padding:16px;gap:10px;grid-template-columns:36px minmax(0,1fr) auto}.points-page .signin-icon{width:36px;height:36px}.points-page .signin-gain strong{font-size:30px}
+ .points-page .inner-masthead,.mine-page .inner-masthead{grid-template-columns:minmax(0,1fr) 78px;gap:8px;min-height:134px}
+ .inner-masthead h1{font-size:27px}.inner-masthead .section-kicker{gap:5px;font-size:14px}
+ .points-page .reward-pass{padding:20px;min-height:202px}.points-page .pass-content{width:72%}.points-page .pass-note{max-width:150px}
+ .points-page>.weekly-progress{padding:16px}.points-page .weekly-progress small{margin-left:0;width:100%}
+ .points-page .signin-panel{padding:16px;gap:10px;grid-template-columns:48px minmax(0,1fr) auto}.points-page .signin-icon{width:48px;height:58px}.points-page .signin-copy h2{font-size:17px}.points-page .signin-copy p{font-size:16px}.points-page .signin-panel .pill-button{padding:10px 12px;font-size:14px}
  .points-page .task-row{padding:16px;grid-template-columns:32px minmax(0,1fr);gap:8px 12px;align-items:start}.points-page .task-icon{width:32px;height:36px}.points-page .task-icon svg{width:22px}.points-page .task-action{grid-column:1/-1;width:100%;padding:9px 10px;margin-top:6px}
- .points-page .exchange-grid{gap:12px}.points-page .exchange-card{padding:12px}.points-page .exchange-visual{height:96px}.points-page .exchange-card .pill-button{gap:4px;padding:9px 6px}
- .mine-page .member-card{padding:20px}.mine-page .member-main{gap:12px}.mine-page .member-avatar{width:48px;height:48px}.mine-page .member-main h2{font-size:20px}.mine-page .member-stats{gap:8px}.mine-page .member-stats strong{font-size:28px}
- .mine-page .reward-pocket{padding:20px;grid-template-columns:minmax(0,1fr) 82px;gap:8px}.mine-page .reward-pocket img{width:82px;height:104px}.mine-page .pocket-label{gap:4px}.mine-page .pocket-label svg{display:none}
- .mine-page .record-row{padding:16px 12px;gap:12px}.mine-page .record-photo{width:56px;height:96px}.mine-page .section-title{gap:10px}.mine-page .section-title select{max-width:140px}
+ .points-page .exchange-grid{gap:12px}.points-page .exchange-card{padding:12px}.points-page .exchange-visual{width:calc(100% + 24px);margin:-12px -12px 2px;height:116px}.points-page .exchange-card .pill-button{gap:4px;padding:9px 6px}
+ .mine-page .member-card{padding:20px}.mine-page .member-main{gap:12px}.mine-page .member-avatar{width:64px;height:64px}.mine-page .member-main h2{font-size:20px}.mine-page .member-botanical{width:58px;height:134px;opacity:.55}.mine-page .member-stats{gap:8px}.mine-page .member-stats strong{font-size:28px}.mine-page .member-stats small{gap:2px}.mine-page .coin-art{width:16px;height:18px}
+ .mine-page .reward-pocket{padding:20px}.mine-page .reward-pocket>div{max-width:75%}.mine-page .pocket-label{gap:4px}.mine-page .pocket-label svg{display:none}
+ .mine-page .keep-sharing{padding:14px;gap:12px}.mine-page .sharing-photo{width:64px;height:74px}.mine-page .keep-sharing strong{font-size:17px}
+ .mine-page .record-row{padding:16px 12px;gap:12px}.mine-page .record-photo{width:80px;height:96px}.mine-page .section-title{gap:10px}.mine-page .section-title select{max-width:140px}
 }

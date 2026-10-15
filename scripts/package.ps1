@@ -11,7 +11,7 @@ $entries = @('src','public','scripts','tests','worker','.openai','.github','dist
 foreach ($entry in $entries) { Copy-Item -LiteralPath (Join-Path $projectRoot $entry) -Destination $stage -Recurse -Force }
 $qaStage = Join-Path $stage 'qa'
 New-Item -ItemType Directory -Path $qaStage -Force | Out-Null
-foreach ($entry in @('before','after','poster','blend','inner','browser-check.json','built-check.json','validation-summary.json')) { Copy-Item -LiteralPath (Join-Path (Join-Path $projectRoot 'qa') $entry) -Destination $qaStage -Recurse -Force }
+foreach ($entry in @('before','after','poster','blend','inner','illustrated','browser-check.json','built-check.json','validation-summary.json')) { Copy-Item -LiteralPath (Join-Path (Join-Path $projectRoot 'qa') $entry) -Destination $qaStage -Recurse -Force }
 $inventory = @(Get-ChildItem -LiteralPath $stage -Recurse -File | ForEach-Object { [ordered]@{path=$_.FullName.Substring($stage.Length+1).Replace('\','/');bytes=$_.Length;sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} })
 $inventory | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $stage '文件校验清单.json') -Encoding utf8
 Add-Type -AssemblyName System.IO.Compression.FileSystem
