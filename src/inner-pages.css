@@ -154,3 +154,12 @@
  .mine-page .keep-sharing{padding:14px;gap:12px}.mine-page .sharing-photo{width:64px;height:74px}.mine-page .keep-sharing strong{font-size:17px}
  .mine-page .record-row{padding:16px 12px;gap:12px}.mine-page .record-photo{width:80px;height:96px}.mine-page .section-title{gap:10px}.mine-page .section-title select{max-width:140px}
 }
+/* Give the full campaign title its own row on phones, independent of the artwork. */
+@media(max-width:599px){
+ .points-page .inner-masthead{grid-template-columns:minmax(0,1fr) 84px;gap:0 12px;min-height:0}
+ .points-page .inner-masthead>div{display:contents}
+ .points-page .inner-masthead .section-kicker{grid-column:1;grid-row:1}
+ .points-page .inner-masthead .masthead-art{grid-column:2;grid-row:1;width:84px}
+ .points-page .inner-masthead h1{grid-column:1/-1;grid-row:2;white-space:nowrap;font-size:clamp(24px,7.5vw,30px);margin:6px 0 10px}
+ .points-page .inner-masthead>div>p:last-child{grid-column:1/-1;grid-row:3}
+}
